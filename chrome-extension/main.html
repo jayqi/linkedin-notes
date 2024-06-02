@@ -1,0 +1,30 @@
+<!doctype html>
+
+<html>
+
+<head>
+  <script src="./main.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+</head>
+
+<body>
+  <form>
+    <fieldset>
+      <label for="commentField">Notes</label>
+      <textarea placeholder="Enter your notes here." id="commentField"></textarea>
+      <div class="float-right">
+        <input type="checkbox" id="confirmField">
+        <label class="label-inline" for="confirmField">Send a copy to yourself</label>
+      </div>
+      <input class="button-primary" type="submit" value="Save">
+    </fieldset>
+  </form>
+  <button id="connect-button">Connect</button>
+  <input id="input-text" type="text" />
+  <button id="send-message-button">Send</button>
+  <div id="response"></div>
+</body>
+
+</html>

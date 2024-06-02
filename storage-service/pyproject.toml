@@ -1,0 +1,54 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "linkedin_notes_storage"
+version = "1.0.0"
+description = "Blah blah."
+readme = "README.md"
+authors = [{ name = "Jay Qi" }]
+license = { text = "MIT License" }
+keywords = []
+classifiers = [
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+requires-python = ">=3.8"
+dependencies = [
+  "platformdirs",
+]
+
+[project.urls]
+
+[tool.ruff]
+line-length = 99
+src = ["linkedin_notes_storage.py", "tests"]
+
+[tool.ruff.lint]
+select = [
+  "E", # Pyflakes
+  "F", # Pycodestyle
+  "I", # isort
+]
+unfixable = ["F"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["linkedin_notes_storage"]
+force-sort-within-sections = true
+
+[tool.mypy]
+files = ["linkedin_notes_storage.py"]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "--cov=linkedin_notes_storage --cov-report=term --cov-report=html --cov-report=xml --cov-append"
+testpaths = ["tests.py"]
+
+[tool.coverage.run]
+source = ["linkedin_notes_storage"]
+
+[tool.coverage.report]
+exclude_also = [
+  "if TYPE_CHECKING:",
+]

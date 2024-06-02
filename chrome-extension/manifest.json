@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "LinkedIn Notes",
+  "version": "1.0",
+  "description": "LinkedIn Notes description.",
+  "action": {
+    "default_title": "LinkedIn Notes",
+    "default_popup": "main.html"
+  },
+  "icons": {
+    "128": "large-blue-square_1f7e6.png"
+  },
+  "permissions": [
+    "activeTab",
+    "nativeMessaging"
+  ]
+}
