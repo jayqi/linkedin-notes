@@ -23,18 +23,19 @@ function onNativeMessage(message) {
         if (message.payload.text !== null) {
             console.log("Successfully retrieved note from database.");
             document.getElementById('notes-field').value = message.payload.text;
-            document.getElementById('notes-field').removeAttribute('disabled');
-            document.getElementById('save-notes-button').setAttribute('disabled');
-            document.getElementById('reset-notes-button').setAttribute('disabled');
         } else {
             console.log("Note is blank.");
+            document.getElementById('notes-field').placeholder = 'Enter a note here.';
         }
+        document.getElementById('notes-field').removeAttribute('disabled');
+        document.getElementById('save-notes-button').setAttribute('disabled', '');
+        document.getElementById('reset-notes-button').setAttribute('disabled', '');
     } else if (message.mode == 'write') {
         if (message.payload.success) {
             console.log("Successfully saved note to database.");
             document.getElementById('notes-status').innerText = 'Changes saved.';
-            document.getElementById('save-notes-button').setAttribute('disabled');
-            document.getElementById('reset-notes-button').setAttribute('disabled');
+            document.getElementById('save-notes-button').setAttribute('disabled', '');
+            document.getElementById('reset-notes-button').setAttribute('disabled', '');
         } else {
             console.log("Failed to save note to database.");
             document.getElementById('notes-status').innerText = 'Changes failed to save.';
