@@ -1,13 +1,13 @@
 from enum import StrEnum
-import json
 from pathlib import Path
 import struct
 import sys
 
 from loguru import logger
 from platformdirs import user_data_dir
-from sqlmodel import Field, Session, SQLModel, create_engine
 from pydantic import BaseModel
+from sqlmodel import Field, Session, SQLModel, create_engine
+
 
 def get_db_path():
     base_dir = user_data_dir("linkedin-notes-storage", ensure_exists=True)
@@ -22,7 +22,7 @@ def get_db_engine():
 
 
 class Note(SQLModel, table=True):
-    slug: str = Field(primary_key=True)
+    profile: str = Field(primary_key=True)
     text: str = ""
 
 
@@ -31,17 +31,23 @@ def on_startup():
     SQLModel.metadata.create_all(engine)
 
 
-def read_note(slug: str) -> str | None:
+def read_note(profile: str) -> str | None:
     engine = get_db_engine()
     with Session(engine) as session:
-        note = session.get(Note, slug)
+        note = session.get(Note, profile)
         return note.text if note else None
 
 
-def write_note(slug: str, text: str):
+def write_note(profile: str, text: str):
     engine = get_db_engine()
     with Session(engine) as session:
-        note = Note(slug=slug, text=text)
+        note = session.get(Note, profile)
+        if note is None:
+            # Create a new note
+            note = Note(profile=profile, text=text)
+        else:
+            # Update the existing note
+            note.text = text
         session.add(note)
         session.commit()
 
@@ -50,7 +56,7 @@ class Mode(StrEnum):
     WRITE = "write"
 
 class Query(BaseModel):
-    slug: str
+    profile: str
     mode: Mode
     text: str | None = None
 
@@ -63,11 +69,15 @@ class Query(BaseModel):
         message_content = sys.stdin.buffer.read(message_length).decode("utf-8")
         return cls.model_validate_json(message_content)
 
+class ReadResponsePayload(BaseModel):
+    text: str | None
+
+class WriteResponsePayload(BaseModel):
+    success: bool
 
 class Response(BaseModel):
     mode: Mode
-    success: bool | None = None
-    text: str | None = None
+    payload: ReadResponsePayload | WriteResponsePayload
 
     def send(self):
         encoded_content = self.model_dump_json().encode("utf-8")
@@ -85,5 +95,14 @@ if __name__ == "__main__":
         with Path("log.txt").open("a") as f:
             f.write(query.model_dump_json() + "\n")
         logger.info("Received query: {}", query)
-        response = Response(text="hello")
+        if query.mode == Mode.READ:
+            text = read_note(query.profile)
+            response = Response(mode=Mode.READ, payload=ReadResponsePayload(text=text))
+        else:
+            try:
+                write_note(query.profile, query.text)
+                response = Response(mode=Mode.WRITE, payload=WriteResponsePayload(success=True))
+            except Exception as e:
+                logger.error("Failed to write note: {}", e)
+                response = Response(mode=Mode.WRITE, payload=WriteResponsePayload(success=False))
         response.send()

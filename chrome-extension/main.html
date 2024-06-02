@@ -7,24 +7,27 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+
+  <style>
+    body {
+      min-width: 400px;
+      min-height: 400px;
+    }
+  </style>
 </head>
 
 <body>
-  <form>
-    <fieldset>
-      <label for="commentField">Notes</label>
-      <textarea placeholder="Enter your notes here." id="commentField"></textarea>
-      <div class="float-right">
-        <input type="checkbox" id="confirmField">
-        <label class="label-inline" for="confirmField">Send a copy to yourself</label>
-      </div>
-      <input class="button-primary" type="submit" value="Save">
-    </fieldset>
-  </form>
-  <button id="connect-button">Connect</button>
-  <input id="input-text" type="text" />
-  <button id="send-message-button">Send</button>
-  <div id="response"></div>
+  <div id="not-linkedin-container">
+    <p>LinkedIn Notes only records notes when your active tab is viewing a LinkedIn profile.</p>
+  </div>
+  <div id="is-linkedin-container" style="display: none;">
+        <label for="notes-field">Notes</label>
+        <textarea placeholder="Loading from database..." id="notes-field" disabled></textarea>
+        <p><small><span id="notes-status">&nbsp;</span></small></p>
+        <input class="button-primary" type="submit" value="Save" id="save-notes-button" disabled>
+        <input class="button-primary" type="submit" value="Discard Changes" id="reset-notes-button" disabled>
+    <div id="response"></div>
+  </div>
 </body>
 
 </html>
