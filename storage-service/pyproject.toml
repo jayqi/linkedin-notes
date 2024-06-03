@@ -16,14 +16,18 @@ classifiers = [
 ]
 requires-python = ">=3.8"
 dependencies = [
+  "loguru",
   "platformdirs",
+  "pydantic>2",
+  "sqlmodel",
+  "typer",
 ]
 
 [project.urls]
 
 [tool.ruff]
 line-length = 99
-src = ["linkedin_notes_storage.py", "tests"]
+src = ["linkedin_notes_storage", "tests"]
 
 [tool.ruff.lint]
 select = [
@@ -38,7 +42,7 @@ known-first-party = ["linkedin_notes_storage"]
 force-sort-within-sections = true
 
 [tool.mypy]
-files = ["linkedin_notes_storage.py"]
+files = ["linkedin_notes_storage"]
 
 [tool.pytest.ini_options]
 minversion = "6.0"

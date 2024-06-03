@@ -1,4 +1,4 @@
-const hostName = 'com.jayqi.linkedin_notes';
+const hostName = 'com.jayqi.linkedin_notes_storage';
 let port = null;
 let profile = null;
 
