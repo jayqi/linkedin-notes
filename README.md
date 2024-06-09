@@ -5,6 +5,12 @@
 
 **LinkedIn Notes** is Chrome browser extension for recording simple text notes associated with LinkedIn profile pages, backed by a local SQLite database.
 
+Key features:
+
+- **Open source.** All source code for LinkedIn Notes is in this repository.
+- **Your data is entirely local.** Notes are saved to a SQLite database on your local filesystem. Unsaved changes are cached in the local storage provided by your browser for extensions. No data is ever transmitted off of your system.
+- **Your data is portable.** All of your data is saved to a single table in the most widely used single-file database. You can use any program capable of reading from a SQLite database to access your data.
+
 ![Screenshot of browser extension](./example.png)
 
 ## How it works
