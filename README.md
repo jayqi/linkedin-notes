@@ -3,7 +3,7 @@
 > [!WARNING]
 > This software is highly experimental and may have breaking changes.
 
-**LinkedIn Notes** is Chrome browser extension for recording simple text notes linked LinkedIn profile pages, backed by a local SQLite database.
+**LinkedIn Notes** is Chrome browser extension for recording simple text notes associated with LinkedIn profile pages, backed by a local SQLite database.
 
 ## How it works
 
@@ -18,6 +18,9 @@ There are two components to LinkedIn Notes:
 
 > [!IMPORTANT]
 > Setting up LinkedIn Notes requires familiarity with running shell commands and installing Python packages.
+
+> [!NOTE]
+> This documentation is still a work in progress..
 
 1. Install the browser extension.
 2. Install the `linkedin-notes-storage` Python package.
