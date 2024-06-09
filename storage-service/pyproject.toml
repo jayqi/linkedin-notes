@@ -23,6 +23,9 @@ dependencies = [
   "typer",
 ]
 
+[project.scripts]
+linkedin-notes-storage = "linkedin_notes_storage.main:app"
+
 [project.urls]
 
 [tool.ruff]
