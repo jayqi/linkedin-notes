@@ -12,9 +12,11 @@ from linkedin_notes_storage.database import read_note, write_note
 
 app = typer.Typer()
 
+
 class Mode(StrEnum):
     READ = "read"
     WRITE = "write"
+
 
 class Query(BaseModel):
     profile: str
@@ -32,11 +34,14 @@ class Query(BaseModel):
         logger.debug("Received query: {}", instance)
         return instance
 
+
 class ReadResponsePayload(BaseModel):
     text: str | None
 
+
 class WriteResponsePayload(BaseModel):
     success: bool
+
 
 class Response(BaseModel):
     mode: Mode
@@ -49,6 +54,7 @@ class Response(BaseModel):
         sys.stdout.buffer.write(encoded_length)
         sys.stdout.buffer.write(encoded_content)
         sys.stdout.buffer.flush()
+
 
 @app.command()
 def main():
@@ -68,6 +74,7 @@ def main():
                 logger.error("Failed to write note: {}", e)
                 response = Response(mode=Mode.WRITE, payload=WriteResponsePayload(success=False))
         response.send()
+
 
 if __name__ == "__main__":
     app()

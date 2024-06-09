@@ -13,6 +13,7 @@ import typer
 _db_engine: Engine | None = None
 app = typer.Typer(no_args_is_help=True)
 
+
 def get_db_path() -> Path:
     base_dir = user_data_dir("linkedin-notes-storage", ensure_exists=True)
     db_path = Path(base_dir) / "linkedin_notes.db"
@@ -31,11 +32,13 @@ def get_db_engine() -> Engine:
         SQLModel.metadata.create_all(_db_engine)
     return _db_engine
 
+
 def parse_url_validator(url: str):
     parse_result = urlparse(url)
     if parse_result.netloc and not parse_result.netloc.endswith("linkedin.com"):
         raise ValueError("URL must be a LinkedIn profile URL.")
     return parse_result.path
+
 
 def profile_format_validator(s: str):
     s = s.strip("/")
@@ -48,6 +51,7 @@ def profile_format_validator(s: str):
     # Add trailing slash
     return s + "/"
 
+
 PROFILE_PATTERN = r"^in/[^/]+/$"
 
 Profile = Annotated[
@@ -57,8 +61,10 @@ Profile = Annotated[
     StringConstraints(pattern=PROFILE_PATTERN),
 ]
 
+
 def now():
     return datetime.datetime.now(datetime.UTC)
+
 
 class Note(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
@@ -66,19 +72,17 @@ class Note(SQLModel, table=True):
     text: str = ""
     created_at: datetime.datetime = Field(default_factory=now, index=True)
 
+
 def query_notes(profile: str, all: bool = False):
     engine = get_db_engine()
     with Session(engine) as session:
-        statement = (
-            select(Note)
-            .where(Note.profile == profile)
-            .order_by(Note.created_at.desc())
-        )
+        statement = select(Note).where(Note.profile == profile).order_by(Note.created_at.desc())
         results = session.exec(statement)
         if not all:
             return results.first()
         else:
             return results.all()
+
 
 def read_note(profile: str) -> str | None:
     """Returns the text for the latest note for the given profile."""
@@ -102,18 +106,21 @@ def write_note(profile: str, text: str):
         session.commit()
         logger.success("Note written successfully.")
 
+
 @app.callback()
 def _docs_callback():
     """Manage the storage database."""
     pass
+
 
 @app.command()
 def path():
     """Return the path to the database file."""
     print(get_db_path())
 
+
 @app.command()
-def query(profile: str, all: bool=False):
+def query(profile: str, all: bool = False):
     """Query database for a note."""
     logger.debug("all: {}", all)
     adapter = TypeAdapter(Profile)
@@ -125,6 +132,7 @@ def query(profile: str, all: bool=False):
     else:
         print(results.model_dump_json())
 
+
 @app.command()
 def list():
     """List all profiles in the database."""
@@ -134,6 +142,7 @@ def list():
         results = sorted(set(session.exec(statement)))
         for profile in results:
             print(profile)
+
 
 @app.command()
 def counts():
@@ -156,6 +165,7 @@ def delete():
         logger.success("Database deleted.")
     else:
         logger.warning("Database does not exist.")
+
 
 @app.command()
 def export():

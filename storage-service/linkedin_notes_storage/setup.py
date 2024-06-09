@@ -68,7 +68,7 @@ def get_run_sh_path() -> Path:
 
 
 @app.command()
-def setup(browser: Browser=Browser.CHROME, overwrite: bool = False, dry_run: bool = False):
+def setup(browser: Browser = Browser.CHROME, overwrite: bool = False, dry_run: bool = False):
     """Set up the native messaging host, which the extension uses to communicate with the storage
     database.
     """
