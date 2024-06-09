@@ -2,7 +2,7 @@ import typer
 
 import linkedin_notes_storage.database
 import linkedin_notes_storage.host
-import linkedin_notes_storage.register
+import linkedin_notes_storage.setup
 
 app = typer.Typer()
 
@@ -16,4 +16,4 @@ def _add_typer(sub_app, name):
 
 _add_typer(linkedin_notes_storage.database.app, name="database")
 _add_typer(linkedin_notes_storage.host.app, name="run")
-_add_typer(linkedin_notes_storage.register.app, name="register")
+_add_typer(linkedin_notes_storage.setup.app, name="setup")
