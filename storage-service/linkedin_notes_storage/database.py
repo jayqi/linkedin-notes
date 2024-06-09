@@ -135,7 +135,7 @@ def query(profile: str, all: bool = False):
 
 @app.command()
 def list():
-    """List all profiles in the database."""
+    """Print a list of all profiles available in the database."""
     engine = get_db_engine()
     with Session(engine) as session:
         statement = select(Note.profile)
@@ -146,11 +146,12 @@ def list():
 
 @app.command()
 def counts():
+    """Prints a count of note versions for each profile in the database."""
     engine = get_db_engine()
     with Session(engine) as session:
         statement = select(Note.profile, func.count(Note.id)).group_by(Note.profile)
         results = session.exec(statement)
-        for profile, count in results:
+        for profile, count in sorted(results):
             print(profile, count)
 
 
