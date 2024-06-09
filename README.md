@@ -22,7 +22,7 @@ There are two components to LinkedIn Notes:
 > Setting up LinkedIn Notes requires familiarity with running shell commands and installing Python packages.
 
 > [!NOTE]
-> This documentation is still a work in progress..
+> This documentation is still a work in progress. More detailed instructions will be added.
 
 1. Install the browser extension.
 2. Install the `linkedin-notes-storage` Python package.
