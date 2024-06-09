@@ -51,7 +51,8 @@ async function getActiveTabUrl() {
 function setProfile(pathname) {
     const regex = /^\/in\/[^\/]+\//;
     const match = pathname.match(regex);
-    profile = match ? match[0] : null;
+    // substring(1) to drop the leading '/'
+    profile = match ? match[0].substring(1) : null;
 }
 
 function queryDatabase() {
